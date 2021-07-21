@@ -1,5 +1,6 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import useHttp from '../../hooks/use-http';
+import SearchContext from '../../search/search-context';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
@@ -19,25 +20,20 @@ const useStyles = makeStyles({
 
 const News = (props) => {
   const classes = useStyles();
-  const { loading, error, news, searchHttp: fetchHttp } = useHttp();
+  const searchCtx = useContext(SearchContext);
+  const { loading, error, searchHttp: fetchNews } = useHttp();
   const { search, setSearch } = useState('');
 
   const onSearchHandler = (query) => {
     setSearch(query);
   };
 
-  const fetchNews = useCallback(() => {
-    fetchHttp('virus')
-      .then(console.log(news)
-      )
-      .catch((e) => {
-        console.log(e);
-      });
-  }, [search]);
-
   useEffect(() => {
-    fetchNews();
-  }, [fetchNews]);
+    const transformNews = (newsObj) => {
+      console.log(newsObj);
+    };
+    fetchNews(search, transformNews);
+  }, [fetchNews, search]);
 
   return (
     <Container className={classes.root}>

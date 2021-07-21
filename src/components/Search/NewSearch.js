@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Input from '@material-ui/core/Input';
@@ -15,16 +15,17 @@ const useStyles = makeStyles({
 
 const NewSearch = (props) => {
   const classes = useStyles();
-  //   const searchValue = useRef();
-  const [search, setSearch] = useState('');
+  const searchValue = useRef();
+  // const [search, setSearch] = useState('');
 
-  const onSearchHandler = (e) => {
-    setSearch(e.target.value);
-  };
+  // const onSearchHandler = (e) => {
+  //   setSearch(e.target.value);
+  // };
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
-    console.log(search);
+    props.onSearch(searchValue.current.value);
+    // props.onSearch(search);
   };
 
   return (
@@ -34,7 +35,8 @@ const NewSearch = (props) => {
         className={classes.textField}
         id='search'
         type='text'
-        onChange={onSearchHandler}
+        inputRef={searchValue}
+        // onChange={onSearchHandler}
       />
       <Button
         type='submit'

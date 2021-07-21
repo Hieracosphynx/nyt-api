@@ -1,14 +1,16 @@
 import React from 'react';
+import SearchProvider from './search/SearchProvider';
 import News from './components/News/News';
 import Search from './components/Search/Search';
 
-const App = () => {
+const App = React.forwardRef((props, ref) => {
+  console.log(ref);
   return (
-    <React.Fragment>
+    <SearchProvider>
       <Search />
       <News />
-    </React.Fragment>
+    </SearchProvider>
   );
-};
+});
 
 export default App;
