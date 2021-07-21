@@ -28,7 +28,8 @@ const News = (props) => {
 
   const fetchNews = useCallback(() => {
     fetchHttp('virus')
-      .then(console.log(news))
+      .then(console.log(news)
+      )
       .catch((e) => {
         console.log(e);
       });
