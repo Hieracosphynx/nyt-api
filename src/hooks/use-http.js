@@ -20,16 +20,15 @@ const useHttp = () => {
         }
 
         for (const count in data.response.docs) {
-          headlines.push([
-            {
-              abstract: data.response.docs[count].abstract,
-              web_url: data.response.docs[count].web_url,
-              snippet: data.response.docs[count].snippet,
-              multimedia: data.response.docs[count].multimedia
-                ? data.response.docs[count].multimedia
-                : [],
-            },
-          ]);
+          headlines.push({
+            id: count,
+            abstract: data.response.docs[count].abstract,
+            web_url: data.response.docs[count].web_url,
+            snippet: data.response.docs[count].snippet,
+            multimedia: data.response.docs[count].multimedia
+              ? data.response.docs[count].multimedia
+              : [],
+          });
         }
         applyData(headlines);
         setIsLoading(false);

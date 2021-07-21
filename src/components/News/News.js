@@ -1,43 +1,61 @@
 import { useState, useContext, useEffect } from 'react';
 import useHttp from '../../hooks/use-http';
 import SearchContext from '../../search/search-context';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import Alert from '@material-ui/lab/Alert';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import Grid from '@material-ui/core/Grid';
+import Card from '@material-ui/core/Card';
+import AlertTitle from '@material-ui/lab/AlertTitle';
 
 const useStyles = makeStyles({
   root: {
     display: 'flex',
+    justifyContent: 'space-around',
     backgroundColor: 'yellow',
   },
-  grid: {
-    direction: 'row',
-    spacing: 3,
-    justifyContent: 'center',
-    alignItems: 'center',
+  card: {
+    width: '50px',
   },
 });
 
 const News = (props) => {
   const classes = useStyles();
+  const [news, setNews] = useState([]);
   const searchCtx = useContext(SearchContext);
   const { loading, error, searchHttp: fetchNews } = useHttp();
-  const { search, setSearch } = useState('');
-
-  const onSearchHandler = (query) => {
-    setSearch(query);
-  };
 
   useEffect(() => {
     const transformNews = (newsObj) => {
-      console.log(newsObj);
+      setNews(newsObj);
     };
-    fetchNews(search, transformNews);
-  }, [fetchNews, search]);
+
+    fetchNews(searchCtx.query, transformNews);
+  }, [fetchNews, searchCtx.query]);
+
+  let content = <p>Search something.</p>;
+
+  const listNews = () => {
+    content = news.map((item) => {
+      return (
+        <Card className={classes.card} key={item.id}>
+          {item.abstract}
+        </Card>
+      );
+    });
+  };
+
+  if (loading) {
+    content = <CircularProgress />;
+  }
+
+  if (!loading && !error) {
+    listNews();
+  }
 
   return (
     <Container className={classes.root}>
-      <p>df</p>
+      <ul>{content}</ul>
     </Container>
   );
 };

@@ -1,17 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import SearchContext from './search-context';
 
 const SearchProvider = (props) => {
-  //   const [query, setQuery] = useState('');
-  let query = '';
+  const [query, setQuery] = useState('');
+
   const searchQuery = (q) => {
-    query = q;
+    setQuery(q);
   };
 
   const searchContext = {
     query: query,
     searchQuery: searchQuery,
   };
+
   return (
     <SearchContext.Provider value={searchContext}>
       {props.children}

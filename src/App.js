@@ -3,14 +3,13 @@ import SearchProvider from './search/SearchProvider';
 import News from './components/News/News';
 import Search from './components/Search/Search';
 
-const App = React.forwardRef((props, ref) => {
-  console.log(ref);
+const App = (props) => {
   return (
     <SearchProvider>
       <Search />
       <News />
     </SearchProvider>
   );
-});
+};
 
 export default App;
