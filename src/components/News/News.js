@@ -2,6 +2,8 @@ import { useState, useContext, useEffect } from 'react';
 import useHttp from '../../hooks/use-http';
 import SearchContext from '../../search/search-context';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
 import Alert from '@material-ui/lab/Alert';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
@@ -10,12 +12,15 @@ import AlertTitle from '@material-ui/lab/AlertTitle';
 
 const useStyles = makeStyles({
   root: {
-    display: 'flex',
-    justifyContent: 'space-around',
-    backgroundColor: 'yellow',
+    width: '100%',
+    margin: 0,
+    flexGrow: 1,
+    overflowY: 'hidden',
   },
-  card: {
-    width: '50px',
+  paper: {
+    height: '500px',
+    width: '300px',
+    padding: '15px',
   },
 });
 
@@ -36,11 +41,11 @@ const News = (props) => {
   let content = <p>Search something.</p>;
 
   const listNews = () => {
-    content = news.map((item) => {
+    content = news.map((data) => {
       return (
-        <Card className={classes.card} key={item.id}>
-          {item.abstract}
-        </Card>
+        <Grid key={data.id} item>
+          <Paper className={classes.paper}>{data.abstract}</Paper>
+        </Grid>
       );
     });
   };
@@ -53,10 +58,23 @@ const News = (props) => {
     listNews();
   }
 
+  if (error) {
+    content = (
+      <Alert severity='error'>
+        <AlertTitle>Error</AlertTitle>
+        {error}
+      </Alert>
+    );
+  }
+
   return (
-    <Container className={classes.root}>
-      <ul>{content}</ul>
-    </Container>
+    <Grid container className={classes.root} spacing={3} xs={12}>
+      <Grid item xs={12}>
+        <Grid container justifyContent='center' spacing={10}>
+          {content}
+        </Grid>
+      </Grid>
+    </Grid>
   );
 };
 
